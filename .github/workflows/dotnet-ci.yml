@@ -16,12 +16,15 @@ jobs:
     - name: Configurar .NET
       uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: '8.0.x'
+        dotnet-version: '10.0.x'
+
+    - name: Mostrar estrutura de pastas
+      run: ls -R .
 
     - name: Restaurar dependências
-      working-directory: ./src/Um   # <-- coloque a pasta onde está seu .csproj
+      working-directory: ./WorkflowUm/src/Um
       run: dotnet restore
 
     - name: Build
-      working-directory: ./src/Um   # <-- mesmo caminho
+      working-directory: ./WorkflowUm/src/Um
       run: dotnet build --configuration Release
