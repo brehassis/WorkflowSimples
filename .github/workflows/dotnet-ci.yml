@@ -17,7 +17,7 @@ jobs:
       - name: Configurar .NET
         uses: actions/setup-dotnet@v4        # 'setup-dotnet' instala o SDK do .NET no runner
         with:
-          dotnet-version: '8.0.x'            # '8.0.x' = instala sempre a versão mais recente do .NET 8
+          dotnet-version: '10.0.x'            # '8.0.x' = instala sempre a versão mais recente do .NET 8
 
       - name: Restaurar dependências
         run: dotnet restore                  # Baixa os pacotes NuGet usados pelo projeto
