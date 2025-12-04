@@ -19,9 +19,9 @@ jobs:
         dotnet-version: '8.0.x'
 
     - name: Restaurar dependências
-      working-directory: ./Um   # <-- coloque a pasta onde está seu .csproj
+      working-directory: C:\courses\versioning\github actions\WorkflowSimples\WorkflowUm\src\Um   # <-- coloque a pasta onde está seu .csproj
       run: dotnet restore
 
     - name: Build
-      working-directory: ./Um   # <-- mesmo caminho
+      working-directory: C:\courses\versioning\github actions\WorkflowSimples\WorkflowUm\src\Um   # <-- mesmo caminho
       run: dotnet build --configuration Release
