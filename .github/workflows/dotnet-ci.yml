@@ -1,0 +1,45 @@
+name: .NET CI                               # Nome do workflow exibido no GitHub Actions
+
+on:
+  push:                                     # 'push' = dispara quando alguém envia commits para o repositório
+    branches: [ "main" ]                    # Apenas quando o push for no branch main
+  pull_request:                              # 'pull_request' = dispara quando um PR é aberto ou atualizado
+    branches: [ "main" ]                    # Apenas PRs direcionados ao branch main
+
+jobs:
+  build-and-test:                            # Nome do job (um conjunto de tarefas)
+    runs-on: ubuntu-latest                   # Runner = máquina virtual onde o job roda (Ubuntu atualizado)
+
+    steps:                                   # Lista de etapas que o job executa
+      - name: Checkout do código
+        uses: actions/checkout@v4            # 'checkout' = baixa o código do repositório para o runner
+
+      - name: Configurar .NET
+        uses: actions/setup-dotnet@v4        # 'setup-dotnet' instala o SDK do .NET no runner
+        with:
+          dotnet-version: '8.0.x'            # '8.0.x' = instala sempre a versão mais recente do .NET 8
+
+      - name: Restaurar dependências
+        run: dotnet restore                  # Baixa os pacotes NuGet usados pelo projeto
+
+      - name: Build
+        run: dotnet build --configuration Release --no-restore  
+                                              # Compila em modo Release
+                                              # '--no-restore' evita restaurar novamente (já feito no passo anterior)
+
+      - name: Testes
+        run: dotnet test --configuration Release --no-build --verbosity normal  
+                                              # Executa testes automatizados
+                                              # '--no-build' evita recompilar
+                                              # '--verbosity normal' mostra logs detalhados
+
+      - name: Publicar artefato
+        run: dotnet publish -c Release -o ./output  
+                                              # Gera binários finais para execução
+                                              # '-o ./output' coloca tudo na pasta /output
+
+      - name: Upload do artefato
+        uses: actions/upload-artifact@v4      # Action que envia arquivos para a aba “Artifacts”
+        with:
+          name: demo-actions-artifact         # Nome do artefato
+          path: ./output                      # Pasta contendo os binários publicados
